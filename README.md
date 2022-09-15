@@ -1,2 +1,6 @@
 # s3-mad-lab-exp
-Anu
+Done by Anu
+##List of programs
+#1.Familarization with Android
+#2.Math Addition Game
+#3.Calculator APP
