@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity6">
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="331dp"
+        android:layout_height="316dp"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="278dp"
+        android:layout_height="271dp"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="147dp"
+        android:layout_height="112dp"
+        app:srcCompat="@android:drawable/alert_dark_frame" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:text="Frame Layout"
+        android:textColor="#9C27B0" />
+
+</FrameLayout>
