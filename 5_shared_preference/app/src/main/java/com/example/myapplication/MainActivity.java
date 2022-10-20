@@ -1,9 +1,10 @@
 package com.example.myapplication;
-
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
+
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,9 +12,17 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String SHARED_PREFERENCE_NAME ="com.example.com.shared-preferences";
+    public static final String SHARED_PREFERENCE_KEY_NUM1 ="NUM1";
+    public static final String SHARED_PREFERENCE_KEY_NUM2 ="NUM2";
+    public static final String SHARED_PREFERENCE_KEY_LEVEL ="LEVEL";
+    public static final String SHARED_PREFERENCE_KEY_SCORE ="SCORE";
+    public static final String SHARED_PREFERENCE_KEY_OPERATOR = "OPERATOR";
 
     private TextView num1;
     private TextView num2;
@@ -23,81 +32,107 @@ public class MainActivity extends AppCompatActivity {
     private TextView score;
     private TextView status;
     private Button nextLevel;
+
     private  SharedPreferences sharedPreferences;
 
     private void updateScore() {
-        int scr;
-        scr = Integer.parseInt(score.getText().toString());
+        int scr = Integer.parseInt(score.getText().toString());
         scr = scr + 10;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SHARED_PREFERENCE_KEY_SCORE, scr);
+        editor.commit();
         score.setText("" + scr);
     }
     private void updateLevel() {
         int lvl = Integer.parseInt(level.getText().toString());
         lvl = lvl + 1;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SHARED_PREFERENCE_KEY_LEVEL, lvl);
+        editor.commit();
     }
+
     private void resetUI() {
         Random r = new Random();
-        int lvl = Integer.parseInt(String.valueOf((TextView) findViewById(R.id.levelvalue)));
-        int scr = Integer.parseInt(String.valueOf((TextView) findViewById(R.id.scorevalue)));
-
-        int r1 = r.nextInt(lvl * 10);
-        int r2 = r.nextInt(lvl * 10);
+        int lvl = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_LEVEL, 1);
+        int scr = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_SCORE, 0);
+        int r1 = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_NUM1, 0);
+        int r2 = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_NUM2, 0);
+        String opr = sharedPreferences.getString(SHARED_PREFERENCE_KEY_OPERATOR,"");
+       if((r1==0&&r2==0)||(r1==Integer.parseInt(num1.getText().toString()))||(r2==Integer.parseInt(num2.getText().toString()))) {
+            r1 = r.nextInt(lvl * 10);
+            r2 = r.nextInt(lvl * 10);
+        }
+        int op;
+        if(opr=="") {
+            opr = "+";
+            op = r.nextInt(3);
+            switch (op) {
+                case 3:
+                    opr = "/";
+                    if (r1 < r2) {
+                        int temp=r1;
+                        r1=r2;
+                        r2=temp;
+                    }
+                    break;
+                case 2:
+                    opr = "*";
+                    break;
+                case 1:
+                    opr = "-";
+                    if (r1 < r2) {
+                        int temp=r1;
+                        r1=r2;
+                        r2=temp;
+                    }
+                    break;
+            }
+        }
         num1.setText("" + r1);
         num2.setText("" + r2);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SHARED_PREFERENCE_KEY_NUM1,r1);
+        editor.putInt(SHARED_PREFERENCE_KEY_NUM2,r2);
+        editor.putString(SHARED_PREFERENCE_KEY_OPERATOR, String.valueOf(opr));
+        editor.commit();
         num1.setTextColor(Color.RED);
         num2.setTextColor(Color.RED);
-        int op = r.nextInt( 3);
-        String opr = "+";
-        switch (op) {
-            case 3:
-                opr = "/";
-                if(r1<r2) {
-                    num1.setText("" + r2);
-                    num2.setText("" + r1);
-                }
-                break;
-            case 2:
-                opr = "*";
-                break;
-            case 1:
-                opr = "-";
-                if(r1<r2) {
-                    num1.setText("" + r2);
-                    num2.setText("" + r1);
-                }
-                break;
-        }
         score.setText("" + scr);
         level.setText("" + lvl);
         operator.setText(opr);
+        status.setText("");
         resultEntered.setText("");
         resultEntered.setTextColor(Color.BLACK);
         nextLevel.setVisibility(View.INVISIBLE);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sharedPreferences = getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+
         num1 = (TextView) findViewById(R.id.num1);
         num2 = (TextView) findViewById(R.id.num2);
-        operator = (TextView)findViewById(R.id.operator);
+        operator = (TextView) findViewById(R.id.operator);
+
         resultEntered = (EditText) findViewById(R.id.result);
-        level = (TextView) findViewById(R.id.levelvalue) ;
-        score=(TextView) findViewById(R.id.scorevalue);
-        status=(TextView) findViewById(R.id.status);
+        level = (TextView) findViewById(R.id.levelvalue);
+        score = (TextView) findViewById(R.id.scorevalue);
+        status = (TextView) findViewById(R.id.status);
         nextLevel = (Button) findViewById(R.id.next);
         nextLevel.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 updateLevel();
                 resetUI();
             }
         });
         resultEntered.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i == EditorInfo.IME_ACTION_DONE) {
-                    if(!TextUtils.isEmpty(resultEntered.getText().toString())) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    if (!TextUtils.isEmpty(resultEntered.getText().toString())) {
                         int result = Integer.parseInt(resultEntered.getText().toString());
                         int n1 = Integer.parseInt(num1.getText().toString());
                         int n2 = Integer.parseInt(num2.getText().toString());
@@ -129,38 +164,11 @@ public class MainActivity extends AppCompatActivity {
                             resultEntered.setTextColor(Color.RED);
                             nextLevel.setVisibility(View.INVISIBLE);
                         }
-                        status.setVisibility(View.VISIBLE);
                     }
                 }
                 return false;
             }
         });
-    }
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        int l =sh.getInt("level",0);
-        int s = sh.getInt("score", 0);
-        int n1 = sh.getInt("num1", 0);
-        int n2 = sh.getInt("num2", 0);
-        String o=sh.getString("op","");
-        level.setText(String.valueOf(l));
-        score.setText(String.valueOf(s));
-        num1.setText(String.valueOf(n1));
-        num2.setText(String.valueOf(n2));
-        operator.setText(o);
-    }
-
-    protected void onPause() {
-        super.onPause();
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-
-        myEdit.putInt("level", Integer.parseInt(level.getText().toString()));
-        myEdit.putInt("score", Integer.parseInt(score.getText().toString()));
-        myEdit.putInt("num1", Integer.parseInt(num1.getText().toString()));
-        myEdit.putInt("num2", Integer.parseInt(num2.getText().toString()));
-        myEdit.putString("op",operator.getText().toString());
-        myEdit.apply();
+        resetUI();
     }
 }
