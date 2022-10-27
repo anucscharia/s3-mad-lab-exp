@@ -53,19 +53,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void resetUI() {
         Random r = new Random();
+        int op=0;
         int lvl = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_LEVEL, 1);
         int scr = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_SCORE, 0);
         int r1 = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_NUM1, 0);
         int r2 = sharedPreferences.getInt(SHARED_PREFERENCE_KEY_NUM2, 0);
-        String opr = sharedPreferences.getString(SHARED_PREFERENCE_KEY_OPERATOR,"");
-       if((r1==0&&r2==0)||(r1==Integer.parseInt(num1.getText().toString()))||(r2==Integer.parseInt(num2.getText().toString()))) {
+        String opr = sharedPreferences.getString(SHARED_PREFERENCE_KEY_OPERATOR,"0");
+        if((r1==0&&r2==0)||(r1==Integer.parseInt(num1.getText().toString()))||(r2==Integer.parseInt(num2.getText().toString()))) {
             r1 = r.nextInt(lvl * 10);
             r2 = r.nextInt(lvl * 10);
-        }
-        int op;
-        if(opr=="") {
-            opr = "+";
             op = r.nextInt(3);
+            opr = "+";
             switch (op) {
                 case 3:
                     opr = "/";
@@ -87,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
             }
+        }
+        if (r1 < r2) {
+            int temp=r1;
+            r1=r2;
+            r2=temp;
         }
         num1.setText("" + r1);
         num2.setText("" + r2);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Whatsapp chating</string>
+    <string name="app_name">Whatsapp using country code</string>
     <string name="phone_number_hint"><font size="16"> phone number </font></string>
     <string name="message_hint"><font size="16">your message please</font></string>
 </resources>

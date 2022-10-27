@@ -10,39 +10,32 @@
         android:id="@+id/textPhoneLbl"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="Phone Number? Country Code and Number"
+        android:text="Phone Number?"
         android:gravity="bottom"
         android:textStyle="bold"
         android:layout_marginLeft="20dp"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/editTextNumbeCC"
-        android:layout_width="80dp"
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/countryCode_picker"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-
-        android:text="91"
-        android:textStyle="bold"
-        android:textSize="35dp"
-        android:inputType="number"
-        android:background="@drawable/editboxborder"
         app:layout_constraintTop_toBottomOf="@id/textPhoneLbl"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingClass,MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextPhone"
-        android:layout_width="310dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:background="@drawable/editboxborder"
         android:hint="@string/phone_number_hint"
         android:inputType="phone"
         android:textColorHint="@color/blue"
-        android:textSize="35dp"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/textPhoneLbl"
-        app:layout_constraintLeft_toRightOf="@id/editTextNumbeCC"/>
+        app:layout_constraintLeft_toRightOf="@id/countryCode_picker"/>
 
     <TextView
         android:id="@+id/textMessageLbl"
@@ -54,36 +47,35 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextPhone" />
-
-    <EditText
-        android:id="@+id/editTextMessage"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:inputType="textMultiLine"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:hint="@string/message_hint"
-        android:background="@drawable/editboxborder"
-        android:gravity="top"
-        android:drawableBottom="@color/xxxxx"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textMessageLbl" />
+        android:orientation="horizontal"
+        android:weightSum="1"
+        app:layout_constraintTop_toBottomOf="@id/textMessageLbl">
 
-    <Button
-        android:id="@+id/whatsappButton"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="72dp"
-        android:text="Whatsapp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextMessage" />
-
-
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".80"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:minLines="3"
+            android:inputType="textMultiLine"
+            android:hint="@string/message_hint"
+            android:background="@drawable/editboxborder"
+            android:gravity="top"
+            android:drawableBottom="@color/xxxxx"/>
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_weight=".20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher_foreground"
+            android:background="@drawable/btn_send"
+            />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
