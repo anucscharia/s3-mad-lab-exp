@@ -72,7 +72,7 @@
             android:layout_weight=".20"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/image"
             android:background="@drawable/btn_send"
             />
     </LinearLayout>
