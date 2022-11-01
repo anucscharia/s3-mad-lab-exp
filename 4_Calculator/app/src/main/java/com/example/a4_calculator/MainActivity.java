@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     text.setText(text.getText().toString() + op);
                 }
-                status_dot=0;Character
+                status_dot=0;
             }
         });
         findViewById(R.id.div).setOnClickListener(new View.OnClickListener() {
