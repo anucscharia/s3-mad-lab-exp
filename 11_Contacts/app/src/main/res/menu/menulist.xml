@@ -1,0 +1,32 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/addvalues"
+        android:icon="@android:drawable/btn_plus"
+        app:showAsAction="always"
+        android:title="Add"/>
+
+    <item
+        android:id="@+id/deletevalues"
+        android:icon="@android:drawable/btn_minus"
+        app:showAsAction="always"
+        android:title="Delete"/>
+
+    <item
+        android:id="@+id/updatevalues"
+        android:icon="@android:drawable/edit_text"
+        app:showAsAction="always"
+        android:title="Update"/>
+
+    <item
+        android:id="@+id/searchvalues"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        android:title="Search"/>
+
+
+</menu>
